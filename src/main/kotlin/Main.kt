@@ -5,8 +5,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import ktorm.Caristes
 import org.ktorm.database.Database
 import org.ktorm.database.asIterable
+import org.ktorm.dsl.*
 import routing.Router
 import routing.Routes
 import ui.HomeScreen
@@ -19,16 +21,14 @@ fun App(database: Database) {
 
     MaterialTheme {
         Surface {
-
             when (router.currentRoute) {
                 Routes.LOGIN -> LoginScreen({ email, password ->
                     println("Tentative de connexion avec $email et un mot de passe ${password}")
-//                    database.executeQuery("SELECT 1").asIterable().map {
-//                        val received = it.getInt(1);
-//                        if (received == 1) {
-//                            router.navigateTo(route = Routes.HOME)
-//                        }
-//                    }
+                    if ((database.from(Caristes).select().where {
+                            (Caristes.login eq email) and (Caristes.mdp eq password)
+                        }).iterator().hasNext()) {
+                        router.navigateTo(route = Routes.HOME)
+                    }
                 })
 
                 Routes.HOME -> HomeScreen()
