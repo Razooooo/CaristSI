@@ -14,13 +14,16 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import controller.LoginController
+import org.koin.compose.koinInject
 
 @Composable
 @Preview
-fun LoginScreen(onLogin: (String, String) -> Unit) {
+fun LoginScreen() {
     var email by remember { mutableStateOf(TextFieldValue("")) }
     var password by remember { mutableStateOf(TextFieldValue("")) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
+    val loginController:LoginController = koinInject()
 
     Column(
         modifier = Modifier.padding(16.dp),
@@ -29,6 +32,7 @@ fun LoginScreen(onLogin: (String, String) -> Unit) {
         Text("Connexion", fontSize = 24.sp)
 
         OutlinedTextField(
+            singleLine = true,
             value = email,
             onValueChange = { email = it },
             label = { Text("Email") },
@@ -37,6 +41,7 @@ fun LoginScreen(onLogin: (String, String) -> Unit) {
         )
 
         OutlinedTextField(
+            singleLine = true,
             value = password,
             onValueChange = { password = it },
             label = { Text("Mot de passe") },
@@ -52,7 +57,7 @@ fun LoginScreen(onLogin: (String, String) -> Unit) {
         Button(
             onClick = {
                 if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
-                    onLogin(email.text, password.text)
+                    loginController.loginUser(email.text, password.text)
                 } else {
                     errorMessage = "Veuillez remplir tous les champs"
                 }

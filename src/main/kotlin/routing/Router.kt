@@ -7,7 +7,10 @@ import androidx.compose.runtime.setValue
 
 enum class Routes(val route: String) {
     LOGIN("LOGIN"),
-    HOME("HOME")
+    HOME("HOME"),
+    CARIST("CARIST"),
+    WAREHOUSE("WAREHOUSE"),
+    PACKAGES("PACKAGES")
 }
 
 class Router {
