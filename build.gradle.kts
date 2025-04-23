@@ -30,7 +30,6 @@ dependencies {
     implementation("io.insert-koin:koin-compose:$koinVersion")
     implementation("io.insert-koin:koin-compose-viewmodel:$koinVersion")
     implementation("io.insert-koin:koin-compose-viewmodel-navigation:$koinVersion")
-
 }
 
 compose.desktop {

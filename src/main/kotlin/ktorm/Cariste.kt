@@ -6,10 +6,10 @@ import org.ktorm.schema.int
 import org.ktorm.schema.varchar
 
 
-object Caristes : Table<Nothing>("caristes") {
-    val id = int("ID").primaryKey()
-    val firstName = varchar("prenom")
-    val lastName = varchar("nom")
+object Cariste : Table<Nothing>("cariste") {
+    val id = int("IdCariste").primaryKey()
+    val firstName = varchar("Prenom")
+    val lastName = varchar("Nom")
     val mdp = varchar("MDP")
     val naissance = date("Naissance")
     val embauche = date("Embauche")

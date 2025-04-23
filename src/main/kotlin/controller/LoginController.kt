@@ -1,6 +1,6 @@
 package controller
 
-import ktorm.Caristes
+import ktorm.Cariste
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.ktorm.database.Database
@@ -14,8 +14,8 @@ class LoginController: KoinComponent {
     fun loginUser(email:String, password:String) {
 
             println("Tentative de connexion avec $email et un mot de passe ${password}")
-            if ((database.from(Caristes).select().where {
-                    (Caristes.login eq email) and (Caristes.mdp eq password)
+            if ((database.from(Cariste).select().where {
+                    (Cariste.login eq email) and (Cariste.mdp eq password)
                 }).iterator().hasNext()) {
                 router.navigateTo(route = Routes.HOME)
             }

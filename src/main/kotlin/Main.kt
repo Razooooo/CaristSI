@@ -7,7 +7,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import controller.LoginController
 import ktorm.Allees
-import ktorm.Caristes
+import ktorm.Cariste
 import ktorm.allees
 import org.koin.compose.KoinApplication
 import org.koin.compose.KoinContext
@@ -18,17 +18,20 @@ import org.ktorm.database.Database
 import org.ktorm.database.asIterable
 import org.ktorm.dsl.*
 import org.ktorm.entity.toList
-import repository.WarehouseRepository
+import repository.*
 import routing.Router
 import routing.Routes
+import services.*
 import ui.HomeScreen
+import ui.InventoryTrackingScreen
 import ui.LoginScreen
+import ui.PackagesScreen
 import ui.WarehouseScreen
 
 @Composable
 @Preview
 fun App() {
-    val router:Router = koinInject()
+    val router: Router = koinInject()
     MaterialTheme {
         Surface {
             when (router.currentRoute) {
@@ -41,25 +44,31 @@ fun App() {
                 Routes.WAREHOUSE -> {
                     WarehouseScreen()
                 }
-//                Routes.CARIST -> {
-//
-//                }
-//                Routes.PACKAGES -> {
-//
-//                }
+
+                Routes.CARIST -> {
+                    // TODO: Implémenter l'écran des caristes
+                }
+
+                Routes.PACKAGES -> {
+                    PackagesScreen()
+                }
+
+                Routes.INVENTORY -> {
+                    InventoryTrackingScreen()
+                }
+
                 else -> {
-                    // TODO replace with commented code
+                    // TODO: Gestion par défaut
                 }
             }
-
-
         }
     }
 }
 
 fun main() = application {
-// Définition d'un module Koin
+    // Définition d'un module Koin
     val appModule = module {
+        // Base de données
         single {
             Database.connect(
                 url = "jdbc:mysql://localhost:3306/carist-si",
@@ -67,13 +76,25 @@ fun main() = application {
                 password = null
             )
         }
+
+        // Repositories
         single { WarehouseRepository() }
-        single {
-            LoginController()
-        }
-        single {
-            Router()
-        }
+        single<ColisRepository> { ColisRepositoryImpl(get()) }
+        single<AlleeRepository> { AlleeRepositoryImpl(get()) }
+        single<ColonneRepository> { ColonneRepositoryImpl(get()) }
+        single<EmplacementRepository> { EmplacementRepositoryImpl(get()) }
+        single<PlaceRepository> { PlaceRepositoryImpl(get()) }
+
+        // Services
+        single { ColisService(get()) }
+        single { AlleeService() }
+        single { ColonneService() }
+        single { EmplacementService() }
+        single { PlaceService() }
+
+        // Autres
+        single { LoginController() }
+        single { Router() }
     }
 
     // Démarrage de Koin

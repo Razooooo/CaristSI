@@ -10,7 +10,8 @@ enum class Routes(val route: String) {
     HOME("HOME"),
     CARIST("CARIST"),
     WAREHOUSE("WAREHOUSE"),
-    PACKAGES("PACKAGES")
+    PACKAGES("PACKAGES"),
+    INVENTORY("INVENTORY")  // Nouvelle route pour le suivi d'inventaire
 }
 
 class Router {
